@@ -20,6 +20,6 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: bash pfk-api/deploy.sh
-          username: ubuntu
+          username: root
           host: ${{ secrets.HOST }}
           privateKey: ${{ secrets.PRIVATE_KEY }}
