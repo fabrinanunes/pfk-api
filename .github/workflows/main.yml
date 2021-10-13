@@ -1,0 +1,25 @@
+name: Main Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+  CD:
+    needs: [CI]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to Digital Ocean
+        uses: actions/setup-node@v2
+        with:
+          command: bash pfk-api/deploy.sh
+          username: root
+          host: ${{ secrets.HOST }}
+          privateKey: ${{ secrets.PRIVATE_KEY }}
