@@ -1,8 +1,8 @@
-name: Production Deploy
+name: Develop Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
 
   workflow_dispatch:
 
