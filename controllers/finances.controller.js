@@ -1,5 +1,5 @@
-const payment = require('../../core/vendor/packJuno')
-const Solicitations = require('../../models/solicitations');
+const payment = require('../core/vendor/packJuno')
+const Solicitations = require('../models/solicitations');
 const moment = require('moment')
 
 module.exports = {
