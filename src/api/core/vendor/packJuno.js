@@ -57,9 +57,9 @@ const paymentPack = {
         try{
             const instance = await paymentPack.init();
             const res = await instance.get('balance');
-            return res.data
+            return res
         }catch(err){
-            throw err.response.data
+            throw err.response
         }
    },
 
@@ -105,7 +105,7 @@ const paymentPack = {
             const res = await instance.get(`charges/${id}`, obj)
             return res.data
         }catch(err){
-            throw err.response.data;
+            throw err.response;
         }
     },
 

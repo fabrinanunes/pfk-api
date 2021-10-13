@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const controller = require('../controllers/flights.controller');
-const ensureAuthenticated = require('../middlewares/ensure-authenticated');
+const controller = require('../api/controllers/flights.controller');
+const ensureAuthenticated = require('../config/middlewares/ensure-authenticated');
 
 router.post('/', ensureAuthenticated, controller.create);
 router.get('/', controller.list);
