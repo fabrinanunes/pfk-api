@@ -1,21 +1,23 @@
-const payment = require('../../core/vendor/packJuno')
-const Solicitations = require('../../models/solicitations');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+const payment = require('../lib/payment/packJuno')
+const Solicitations = require('../models/solicitations');
 const moment = require('moment')
 
 module.exports = {
     //consultar saldo
-    async show(req, res){
+    async balance(req, res){
         try{
             const balance = await payment.balance();
             return res.json(balance.balance)
+            console.log(balance)
         }catch(err){
-            console.error(err)
+            console.log(err)
             return res.json(err)
         }
     },
-        
+
     //criar cobrança
-    async createCharge(req, res){
+    async newCharge(req, res){
         try {
             const charge = req.body;
             const newCharge = await payment.charge(charge);
@@ -30,7 +32,7 @@ module.exports = {
     },
 
     //consultar cobrança
-    async check(req, res){
+    async status(req, res){
         try {
             const id = req.params.id  
             const charge = await payment.checkCharge(id);
@@ -42,7 +44,7 @@ module.exports = {
     },
 
     //listar cobrança
-    async listCharges(req, res){
+    async list(req, res){
         try {
             const list = await payment.chargeList();
             return res.json(list)
@@ -52,20 +54,8 @@ module.exports = {
         }
     },
 
-    //cancelar cobrança
-    async cancel(req, res){
-        try {
-            const id = req.params.id
-            const chargeCancellation = await payment.cancel(id);
-            return res.json(chargeCancellation)
-        } catch (error) {
-            const status = error.status ? error.status : 400
-            res.status(status).send(error)   
-        }
-    },
-
     //criar pagamento
-    async createPayment(req, res){
+    async newPayment(req, res){
         try{
             const data = req.body;
             const newPayment = await payment.payment(data);
@@ -77,21 +67,8 @@ module.exports = {
         }
     },
 
-    //capturar pagamento
-    async capture(req, res){
-        try{
-            const id = req.params.id
-            const obj = req.body
-            const capturePayment = await payment.capture(id, obj);
-            return res.json(capturePayment)
-        }catch(error){
-            const status = error.status ? error.status : 400
-            res.status(status).send(error)
-        }
-    },
-
     //reembolso
-    async update(req, res){
+    async refund(req, res){
         try {
             const id = req.params.id;
             const obj = req.body.amount;
@@ -117,7 +94,7 @@ module.exports = {
     },
 
     //solicitação de reembolso
-    async clientReq(req, res){
+    async refundReq(req, res){
         const { payId } = req.body;
 
         try{
@@ -129,7 +106,7 @@ module.exports = {
         } catch(err){
             res.status(400).send({ error: 'Solicitation failed'})
         }
-        
+
 
     }
-}
+} 

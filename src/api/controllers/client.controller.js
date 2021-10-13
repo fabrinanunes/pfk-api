@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const Client = require('../models/client');
-const Solicitation = require('../models/solicitations')
 
 function generateToken(params = {}){
     return jwt.sign(params, process.env.SECRET,{
@@ -11,7 +10,7 @@ function generateToken(params = {}){
 }
 
 module.exports = {
-    async create(req, res){
+    async singUp(req, res){
         const { email } = req.body;
 
         try{
@@ -26,8 +25,8 @@ module.exports = {
             return res.status(400).send({ error: 'Registration failed'})
         }
     },
-    
-    async auth(req, res){
+
+    async signIn(req, res){
         const { email, password } = req.body;
         const user = await Client.findOne({ email }).select('+password');
  
@@ -39,10 +38,5 @@ module.exports = {
         user.password = undefined;
  
         res.send({ user, token: generateToken({ id: user.id }) });
-    }, 
-
-    async list(req, res){
-        const listReq = await Solicitation.find()
-        res.send(listReq)
     }
 }

@@ -18,4 +18,4 @@ module.exports = {
             res.status(400).send({ error: 'The list can not be accessed'})
         }
     }
-}
+} 

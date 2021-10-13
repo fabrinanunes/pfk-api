@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const Client = require('../models/client');
+const Admin = require('../models/admin');
+const Solicitation = require('../models/solicitations')
 
 function generateToken(params = {}){
     return jwt.sign(params, process.env.SECRET,{
@@ -10,13 +11,13 @@ function generateToken(params = {}){
 }
 
 module.exports = {
-    async create(req, res){
+    async singUp(req, res){
         const { email } = req.body;
 
         try{
-            if(await Client.findOne({ email })) return res.status(400).send({ error: 'User already exists' })
+            if(await Admin.findOne({ email })) return res.status(400).send({ error: 'User already exists' })
 
-            const user = await Client.create(req.body)
+            const user = await Admin.create(req.body)
 
             user.password = undefined;
 
@@ -26,9 +27,9 @@ module.exports = {
         }
     },
     
-    async auth(req, res){
+    async signIn(req, res){
         const { email, password } = req.body;
-        const user = await Client.findOne({ email }).select('+password');
+        const user = await Admin.findOne({ email }).select('+password');
  
         if(!user) return res.status(400).send({ error: 'Email incorrect'});
         
@@ -38,5 +39,10 @@ module.exports = {
         user.password = undefined;
  
         res.send({ user, token: generateToken({ id: user.id }) });
+    }, 
+
+    async solicitations(req, res){
+        const listReq = await Solicitation.find()
+        res.send(listReq)
     }
 }
