@@ -1,4 +1,4 @@
-const axios = require('../../node_modules/axios');
+const axios = require('axios');
 require('dotenv').config();
 
 const enviroments = {
