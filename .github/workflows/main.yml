@@ -20,7 +20,6 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: bash pfk-api/deploy.sh
-          username: root
           host: ${{ secrets.HOST }}
           privateKey: ${{ secrets.PRIVATE_KEY_MAIN }}
           port: 22
