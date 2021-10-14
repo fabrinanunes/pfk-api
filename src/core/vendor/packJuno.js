@@ -49,7 +49,7 @@ const paymentPack = {
 
         return res.data.access_token;
         }catch(err){
-            throw err.response.data
+            throw err
         }
    },
 
@@ -57,9 +57,9 @@ const paymentPack = {
         try{
             const instance = await paymentPack.init();
             const res = await instance.get('balance');
-            return res
+            return res.data
         }catch(err){
-            throw err.response
+            throw err;
         }
    },
 
@@ -74,7 +74,7 @@ const paymentPack = {
            return res.data;
            
        }catch(err){
-           throw eerr.response.data;
+           throw err.response.data;
        }
    },
 
@@ -85,7 +85,8 @@ const paymentPack = {
            const res = await instance.post('charges', obj);
            return res.data._embedded.charges;
         }catch(err){
-           throw err.response.data;
+            console.log(err.response.data)
+            throw err.response.data;
         }
     },
     
@@ -105,7 +106,7 @@ const paymentPack = {
             const res = await instance.get(`charges/${id}`, obj)
             return res.data
         }catch(err){
-            throw err.response;
+            throw err.response.data;
         }
     },
 
@@ -126,7 +127,8 @@ const paymentPack = {
             const res = await instance.post('payments', obj);
             return res.data.payments[0];
         }catch(err){
-            throw err.response.data;
+            throw err.response.data
+
         }
     },
 

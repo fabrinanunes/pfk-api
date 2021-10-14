@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require("dotenv").config();
 
 const Client = require('../models/client');
 
@@ -22,6 +23,7 @@ module.exports = {
 
             res.send({ user, token: generateToken({ id: user.id }) });
         } catch(err){
+            //console.log(err)
             return res.status(400).send({ error: 'Registration failed'})
         }
     },

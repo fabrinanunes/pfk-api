@@ -1,9 +1,9 @@
-const mongoose = require('../../config/database');
+const mongoose = require('../config/database');
 
 const ReqSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserClient'
+        ref: 'Client'
     },
     paymentId: {
         type: String,
