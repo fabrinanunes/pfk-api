@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy to Digital Ocean
-        uses: actions/setup-node@v2
+        uses: garygrossgarten/github-action-ssh@release
         with:
           command: bash pfk-api/deploy.sh
           username: root
