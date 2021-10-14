@@ -23,3 +23,4 @@ jobs:
           username: root
           host: ${{ secrets.HOST }}
           privateKey: ${{ secrets.PRIVATE_KEY_MAIN }}
+          port: 22
