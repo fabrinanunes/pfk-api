@@ -15,10 +15,12 @@ jobs:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-      - uses: kielabokkie/ssh-key-and-known-hosts-action@v1.2.0
+      - uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
-          ssh-private-key: ${{secrets.PRIVATE_KEY_MAIN}}
-            # Hostname or IP to add to the known hosts file
-          ssh-host: ${{secrets.HOST}}
-            # Port for key-scanning the server
-          ssh-port: 22
+            host: ${{ secrets.DHOST }}
+            pass: ${{ secrets.PASSPHRASE_NAME }}
+            port: 22
+            connect_timeout: 10s
+            script:
+              bash pfk-api/deploy.sh
+
