@@ -18,6 +18,7 @@ jobs:
       - uses: cross-the-world/ssh-pipeline@master
         with:
             host: ${{ secrets.HOST }}
+            user: ${{ secrets.USER }}
             pass: ${{ secrets.PASSPHRASE_NAME }}
             port: 22
             connect_timeout: 10s
