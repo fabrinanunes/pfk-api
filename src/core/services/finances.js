@@ -1,6 +1,9 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED
-const payment = require('../vendor/packJuno')
 const moment = require('moment');
+
+const payment = require('../vendor/packJuno');
+const Cards = require('../../models/cards');
+const Charges = require('../../models/charges');
 
 module.exports={
     async balance(){
@@ -24,8 +27,14 @@ module.exports={
     },
 
     async payment(data){
+        const payload = {
+            user: data.userId,
+            paymentId: data.id,
+            chargeId: data.chargeId
+        };
+        const paymentData = await Charges.create(payload);
         const newPayment = await payment.payment(data);
-        return newPayment
+        return [ paymentData, newPayment ]
     },
 
     async refund(data, id){

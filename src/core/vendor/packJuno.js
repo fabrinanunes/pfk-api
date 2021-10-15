@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED
 const axios = require('axios');
 require('dotenv').config();
 
@@ -51,7 +52,7 @@ const paymentPack = {
         }catch(err){
             throw err
         }
-   },
+    },
 
     balance: async() => { //lista o saldo
         try{
@@ -61,33 +62,33 @@ const paymentPack = {
         }catch(err){
             throw err;
         }
-   },
+    },
 
-   tokenization: async(obj) => { //tokeniza o cartão de crédito
-       try{
-           const instance = await paymentPack.init();
-           const res = await instance.post('/credit-cards/tokenization', obj, {
-               headers: {
-                   'Content-type': 'application/json'
-               }
-           });
-           return res.data;
-           
-       }catch(err){
-           throw err.response.data;
-       }
-   },
-
-   //cobrança
-   charge: async(obj) => { //cria cobrança
-       try{
-           const instance = await paymentPack.init();
-           const res = await instance.post('charges', obj);
-           return res.data._embedded.charges;
+    tokenization: async(obj) => { //tokeniza o cartão de crédito
+        try{
+            const instance = await paymentPack.init();
+            const res = await instance.post('/credit-cards/tokenization', obj, {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            return res.data;
+            
         }catch(err){
-            console.log(err.response.data)
             throw err.response.data;
         }
+    },
+
+   //cobrança
+    charge: async(obj) => { //cria cobrança
+        try{
+            const instance = await paymentPack.init();
+            const res = await instance.post('charges', obj);
+            return res.data._embedded.charges;
+            }catch(err){
+                console.log(err.response.data)
+                throw err.response.data;
+            }
     },
     
     cancel: async(id, obj) => { //cancelar cobrança
@@ -127,8 +128,7 @@ const paymentPack = {
             const res = await instance.post('payments', obj);
             return res.data.payments[0];
         }catch(err){
-            throw err.response.data
-
+            throw err
         }
     },
 

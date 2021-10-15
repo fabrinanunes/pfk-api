@@ -1,7 +1,5 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED
-// const payment = require('../core/vendor/packJuno')
 const Solicitations = require('../models/solicitations');
-// const moment = require('moment')
 
 const finances = require('../core/services/finances')
 
@@ -51,11 +49,11 @@ module.exports = {
     async payment(req, res){
         try{
             const payment = await finances.payment(req.body);
-            res.json(payment);
+            return res.json(payment);
         }catch(error){
             const status = error.status ? error.status : 400
-            console.log(error)
             res.status(status).send(error)
+            return
         }
     },
 
@@ -83,8 +81,12 @@ module.exports = {
 
     async refundReq(req, res){
         try{
-            const refundReq = await Solicitations.create(req.body)
-            res.send({ refundReq })
+            const payload = {
+                ...req.body,
+                user: req.userId
+            }
+            const refundReq = await Solicitations.create(payload)
+            res.json(refundReq)
         } catch(error){
             console.log(error)
             res.status(400).send({ error: 'Solicitation failed'})
