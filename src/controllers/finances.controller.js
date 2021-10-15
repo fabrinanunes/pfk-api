@@ -2,6 +2,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED
 const Solicitations = require('../models/solicitations');
 
 const finances = require('../core/services/finances')
+const { postCode } = require('../core/services/correios')
 
 module.exports = {
     async balance(req, res){
@@ -17,7 +18,9 @@ module.exports = {
 
     async charge(req, res){
         try {
+            const cep = req.body.billing.address.postCode;
             const charge = await finances.charge(req.body);
+            const getCep = await postCode(cep);
             res.json(charge)
         }catch(error){
             const status = error.status ? error.status : 400

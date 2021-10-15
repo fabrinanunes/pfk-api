@@ -6,9 +6,9 @@ const welcomeEmail = (email, name) => {
     const message = {
         to: email,
         from: process.env.MAILER_FROM,
-        subject: `Welcome!`,
-        text: `Hello, ${name} 💜`,
-        html: '<h1>Hello there </h1>',
+        subject: `Hello!`,
+        text: `Hello`,
+        html: `<h1>Welcome Aboard, ${name}</h1>`,
     }
     
     console.log(message);
