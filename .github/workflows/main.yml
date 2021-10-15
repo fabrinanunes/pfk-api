@@ -15,12 +15,11 @@ jobs:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-      - uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      - uses: cross-the-world/ssh-pipeline@master
         with:
-            host: ${{ secrets.DHOST }}
+            host: ${{ secrets.HOST }}
             pass: ${{ secrets.PASSPHRASE_NAME }}
             port: 22
             connect_timeout: 10s
             script:
-              bash pfk-api/deploy.sh
-
+              bash pfk-api/test.sh
