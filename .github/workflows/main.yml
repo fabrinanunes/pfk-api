@@ -21,5 +21,5 @@ jobs:
             pass: ${{ secrets.PASSPHRASE_NAME }}
             port: 22
             connect_timeout: 10s
-            script:
+            script: |
               bash pfk-api/test.sh
