@@ -15,12 +15,10 @@ jobs:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Deploy to Digital Ocean
-        uses: garygrossgarten/github-action-ssh@release
+      - uses: kielabokkie/ssh-key-and-known-hosts-action@v1.2.0
         with:
-          command: bash pfk-api/deploy.sh
-          host: ${{ secrets.HOST }}
-          privateKey: ${{ secrets.PRIVATE_KEY_MAIN }}
-          passphrase: ${{ secrets.PASSPHRASE_NAME }}
-          port: 22
+          ssh-private-key: ${{secrets.PRIVATE_KEY_MAIN}}
+            # Hostname or IP to add to the known hosts file
+          ssh-host: ${{secrets.HOST}}
+            # Port for key-scanning the server
+          ssh-port: 22
