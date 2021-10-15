@@ -22,4 +22,5 @@ jobs:
           command: bash pfk-api/deploy.sh
           host: ${{ secrets.HOST }}
           privateKey: ${{ secrets.PRIVATE_KEY_MAIN }}
+          passphrase: ${{ secrets.PASSPHRASE_NAME }}
           port: 22
