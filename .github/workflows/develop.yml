@@ -22,4 +22,4 @@ jobs:
       with:
         host: ${{ secrets.HOST_DEVELOP }}
         username: ${{ secrets.USER }}
-        script: sh pfk-api/deploy.sh
+        script: sh pfk-api/test.sh
