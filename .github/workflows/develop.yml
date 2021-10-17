@@ -23,4 +23,5 @@ jobs:
         host: ${{ secrets.HOST_DEVELOP }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSHKEY_DEVELOP }}
+        port: 3001
         script: bash pfk-api/test.sh
