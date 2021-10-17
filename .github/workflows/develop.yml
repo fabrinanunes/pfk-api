@@ -1,27 +1,28 @@
+
 name: Develop
 
 on:
   push:
     branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-      
+
+  workflow_dispatch:
+
 jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy
-        uses: actions/setup-node@v2
+      - name: Run a one-line script
+        run: echo Hello, world!
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using ssh key
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST_DEVELOP }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSHKEY_DEVELOP }}
-        port: 3001
-        script: bash pfk-api/test.sh
+      - uses: actions/checkout@v2
+      - name: Deploy to Digital Ocean
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: bash pfk-api/test.sh
+          username: root
+          host: ${{ secrets.HOST_DEVELOP }}
+          privateKey: ${{ secrets.SSHKEY_DEVELOP }}
