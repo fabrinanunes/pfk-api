@@ -1,25 +1,25 @@
-name: Develop Deploy
+name: Develop
 
 on:
   push:
     branches: [ develop ]
-
-  workflow_dispatch:
-
+  pull_request:
+    branches: [ develop ]
+      
 jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Deploy
+        uses: actions/setup-node@v2
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Deploy to Digital Ocean
-        uses: actions/setup-node@v2
-        with:
-          command: bash pfk-api/deploy.sh
-          username: root
-          host: ${{ secrets.HOST_DEVELOP }}
-          privateKey: ${{ secrets.PRIVATE_KEY_DEVELOP }}
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_DEVELOP }}
+        username: ${{ secrets.USER }}
+        script: sh pfk-api/deploy.sh
