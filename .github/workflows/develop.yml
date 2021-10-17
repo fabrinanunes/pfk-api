@@ -22,4 +22,5 @@ jobs:
       with:
         host: ${{ secrets.HOST_DEVELOP }}
         username: ${{ secrets.USER }}
-        script: sh pfk-api/test.sh
+        key: ${{ secrets.SSHKEY_DEVELOP }}
+        script: bash pfk-api/test.sh
