@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy to Digital Ocean
+      - name: Deploy to Digital Ocean - Api-develop
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: bash pfk-api/test.sh
+          command: bash kapischool-back/deploy.sh
           username: root
           host: ${{ secrets.HOST_DEVELOP }}
           privateKey: ${{ secrets.SSHKEY_DEVELOP }}
