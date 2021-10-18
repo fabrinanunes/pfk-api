@@ -1,9 +1,11 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED=0
 const moment = require('moment');
 
 const payment = require('../vendor/packJuno');
 const Cards = require('../../models/cards');
 const Charges = require('../../models/charges');
+const Client = require('../../models/client');
+const Profile = require('../../models/profile')
 
 module.exports={
     async balance(){
@@ -27,14 +29,17 @@ module.exports={
     },
 
     async payment(data){
-        const payload = {
-            user: data.userId,
-            paymentId: data.id,
-            chargeId: data.chargeId
-        };
-        const paymentData = await Charges.create(payload);
+        const user = await Profile.findOne({user: _id})
         const newPayment = await payment.payment(data);
-        return [ paymentData, newPayment ]
+        const paymentData = {
+            user: user,
+            paymentId: newPayment.id,
+            chargeId: newPayment.chargeId,
+            card: newPayment.creditCardDetails.creditCardId
+        }
+        console.log(paymentData)
+        const paymentDb = await Charges.create(paymentData)
+        return [newPayment, paymentData]
     },
 
     async refund(data, id){
@@ -43,7 +48,18 @@ module.exports={
     },
 
     async tokenization(data){
-        const saveCard = payment.tokenization(data)
+        const saveCard = await payment.tokenization(data)
+        const cardData = {
+            card: saveCard.creditCardId,
+            last4CardNumber: saveCard.last4CardNumber,
+            expirationMonth: saveCard.expirationMonth,
+            expirationYear: saveCard.expirationYear
+        }
+        const card = await Cards.findOne({card: cardData.card})
+        if(card == null){
+            await Cards.create(cardData)
+        }
+        //Profile: adicionar o cartão no array
         return saveCard
     }
 }

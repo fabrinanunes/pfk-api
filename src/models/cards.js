@@ -3,23 +3,19 @@ const mongoose = require('../config/database');
 const CardSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Client'
+        ref: 'Profile'
     },
-    token: {
+    card: {
         type: String,
-        required: true
     },
     last4CardNumber: {
         type: String,
-        required: true
     },
     expirationMonth: {
         type: String,
-        required: true
     },
     expirationYear: {
         type: String,
-        required: true
     }
 })
 

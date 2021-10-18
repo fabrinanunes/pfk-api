@@ -41,14 +41,14 @@ const admin = {
 
 const client = {
     async signUp(data){
-        const { email } = data;
+        const { email } = data.email;
 
         if(await Client.findOne({ email })) return  { error: 'User already exists' };
 
         const user = await Client.create(data);
-        const profile = await Profile.create({ user: user._id })
-        user.password = undefined;
+        const profile = await Profile.create({ user: user._id, name: user.name, email: user.email})
 
+        user.password = undefined;
         return { user, token: generateToken({ id: user.id }) };
     },
 
@@ -67,8 +67,4 @@ const client = {
     }
 }
 
-const profile = {
-    
-}
-
-module.exports = { admin, client, profile }
+module.exports = { admin, client }

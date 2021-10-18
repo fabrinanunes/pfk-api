@@ -3,11 +3,17 @@ const mongoose = require('../config/database');
 const ProfileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Client"
+        ref: "Profile"
+    },
+    name: {
+        type: String,
+    },
+    email: {
+        type: String,
     },
     cards: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Card'
+        type: String,
+        required: true
     }],
     flights:[{
         type: mongoose.Schema.Types.ObjectId,

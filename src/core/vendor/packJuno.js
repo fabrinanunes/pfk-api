@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED
 const axios = require('axios');
 require('dotenv').config();
 
@@ -128,7 +128,7 @@ const paymentPack = {
             const res = await instance.post('payments', obj);
             return res.data.payments[0];
         }catch(err){
-            throw err
+            throw err.response.data
         }
     },
 

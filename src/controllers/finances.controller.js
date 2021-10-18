@@ -1,8 +1,10 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED
 const Solicitations = require('../models/solicitations');
+const Charges = require('../models/charges');
 
 const finances = require('../core/services/finances')
-const { postCode } = require('../core/services/correios')
+const { postCode } = require('../core/services/correios');
+const Client = require('../models/client');
 
 module.exports = {
     async balance(req, res){
@@ -37,6 +39,11 @@ module.exports = {
             const status = error.status ? error.status : 400
             res.status(status).send(error)
         }
+    },
+
+    async list(){
+        const list = await finances.list()
+        return list;
     },
 
     async list(req, res){

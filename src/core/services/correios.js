@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED=0
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED=0
 const soap = require('soap');
 
 module.exports={
@@ -8,12 +8,12 @@ module.exports={
         const cep = data
         soap.createClient(url, (err, client) => {
             if(err){
-                console.log(err)
+                //console.log(err)
             }else{
                 client.consultaCEP({
                     cep: cep
                 }, (err, res) => {
-                    console.log(res.return)
+                    //console.log(res.return)
                 })
             }
         })

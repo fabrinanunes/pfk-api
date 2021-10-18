@@ -1,5 +1,5 @@
 const { client } = require('../core/services/users');
-const { welcomeEmail } = require('../core/vendor/sendgrid')
+const mailer = require('../core/services/mailer')
 
 module.exports = {
     async singUp(req, res){
@@ -7,7 +7,7 @@ module.exports = {
             const register = await client.signUp(req.body);
             const name = register.user.name;
             const email = register.user.email;
-            welcomeEmail(email, name)
+            mailer.signUp(email, name)
             res.json(register)
         }catch(error){
             console.log(error)

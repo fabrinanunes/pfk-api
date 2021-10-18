@@ -11,17 +11,41 @@ const welcomeEmail = (email, name) => {
         html: `<h1>Welcome Aboard, ${name}</h1>`,
     }
     
-    console.log(message);
+    //console.log(message);
     sgMail.send(message).then(
       () => { 
-          console.log("Email sent!", message); },
+        //   console.log("Email sent!", message); 
+        },
       error => { 
-          console.error(error);
+         // console.error(error);
           if (error.response) {
-              console.error(error.response.body);
+              //console.error(error.response.body);
+        }
+      }
+    );
+}
+
+const purchase = (email, name) => {    
+    const message = {
+        to: email,
+        from: process.env.MAILER_FROM,
+        subject: `Hello!`,
+        text: `Hello`,
+        html: `<h1>Welcome Aboard, ${name}</h1>`,
+    }
+    
+    //console.log(message);
+    sgMail.send(message).then(
+      () => { 
+          //console.log("Email sent!", message); 
+        },
+      error => { 
+          //console.error(error);
+          if (error.response) {
+             // console.error(error.response.body);
         }
       }
     );
 };
 
-module.exports = { welcomeEmail }
+module.exports = { welcomeEmail, purchase }
