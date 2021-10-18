@@ -22,7 +22,7 @@ jobs:
       - name: Deploy to Digital Ocean - Api-develop
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: bash kapischool-back/deploy.sh
+          command: bash pfk-api/deploy.sh
           username: root
           host: ${{ secrets.HOST_DEVELOP }}
           privateKey: ${{ secrets.SSHKEY_DEVELOP }}
