@@ -25,4 +25,4 @@ jobs:
           command: bash pfk-api/deploy.sh
           username: root
           host: ${{ secrets.HOST_DEVELOP }}
-          privateKey: ${{ secrets.SSHKEY_DEVELOP }}
+          privateKey: ${{ secrets.SSHKEY }}
