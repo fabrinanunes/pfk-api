@@ -20,7 +20,7 @@ jobs:
       - name: Deploy to Digital Ocean
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: bash pfk-api/test.sh
+          command: bash pfk-api/deploy.sh
           username: root
           host: ${{ secrets.HOST_PRODUC }}
           privateKey: ${{ secrets.SSHKEY }}
