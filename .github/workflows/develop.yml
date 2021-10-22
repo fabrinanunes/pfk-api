@@ -1,6 +1,4 @@
-
 name: Develop
-
 on:
   push:
     branches: [ develop ]
@@ -19,10 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy to Digital Ocean - Api-develop
+      - name: Deploy to Digital Ocean
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: bash pfk-api/deploy.sh
           username: root
           host: ${{ secrets.HOST_DEVELOP }}
           privateKey: ${{ secrets.SSHKEY }}
+
