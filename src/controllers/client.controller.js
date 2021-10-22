@@ -1,5 +1,6 @@
 const { client } = require('../core/services/users');
-const mailer = require('../core/services/mailer')
+const mailer = require('../core/services/mailer');
+const errorHandler = require('../core/erro-handler');
 
 module.exports = {
     async singUp(req, res){

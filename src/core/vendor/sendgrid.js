@@ -7,45 +7,65 @@ const welcomeEmail = (email, name) => {
         to: email,
         from: process.env.MAILER_FROM,
         subject: `Hello!`,
-        text: `Hello`,
+        text: `Welcome`,
         html: `<h1>Welcome Aboard, ${name}</h1>`,
     }
     
-    //console.log(message);
     sgMail.send(message).then(
-      () => { 
-        //   console.log("Email sent!", message); 
-        },
+      () => {
+        console.log("Email sent!", message); 
+      },
       error => { 
-         // console.error(error);
+        console.error(error);
           if (error.response) {
-              //console.error(error.response.body);
+           console.error(error.response.body);
         }
       }
     );
 }
 
-const purchase = (email, name) => {    
+const purchase = (email, res) => {    
     const message = {
         to: email,
         from: process.env.MAILER_FROM,
-        subject: `Hello!`,
-        text: `Hello`,
-        html: `<h1>Welcome Aboard, ${name}</h1>`,
+        subject: `Get ready!`,
+        text: `Purchase`,
+        html: `<h1>Thank you for buying with us.</h1>
+              Here is some informations about your purchase:
+              Purchase Number: ${res}`,
     }
-    
-    //console.log(message);
     sgMail.send(message).then(
       () => { 
-          //console.log("Email sent!", message); 
+          console.log("Email sent!", message); 
         },
       error => { 
-          //console.error(error);
+          console.error(error);
           if (error.response) {
-             // console.error(error.response.body);
+            console.error(error.response.body);
         }
       }
     );
 };
 
-module.exports = { welcomeEmail, purchase }
+const refund = (email) => {    
+  const message = {
+      to: email,
+      from: process.env.MAILER_FROM,
+      subject: `Sorry to hear that!`,
+      text: `Refund`,
+      html: `<h1>We sent the amount back to your bank account</h1>`,
+  }
+  sgMail.send(message).then(
+    () => { 
+        console.log("Email sent!", message); 
+      },
+    error => { 
+        console.error(error);
+        if (error.response) {
+          console.error(error.response.body);
+      }
+    }
+  );
+};
+
+module.exports = { welcomeEmail, purchase, refund }

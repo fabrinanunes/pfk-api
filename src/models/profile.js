@@ -13,11 +13,13 @@ const ProfileSchema = new mongoose.Schema({
     },
     cards: [{
         type: String,
-        required: true
     }],
-    flights:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Flights'
+    // flights:[{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Flights'
+    // }]
+    flights: [{
+        type: String,
     }]
 })
 

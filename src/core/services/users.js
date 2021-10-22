@@ -41,9 +41,9 @@ const admin = {
 
 const client = {
     async signUp(data){
-        const { email } = data.email;
+        const { email } = data;
 
-        if(await Client.findOne({ email })) return  { error: 'User already exists' };
+        if(await Client.findOne({ email })) return { error: 'User already exists' };
 
         const user = await Client.create(data);
         const profile = await Profile.create({ user: user._id, name: user.name, email: user.email})
@@ -67,4 +67,4 @@ const client = {
     }
 }
 
-module.exports = { admin, client }
+module.exports = { admin, client}

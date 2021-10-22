@@ -6,8 +6,13 @@ module.exports={
         return signUp
     },
 
-    purchase(email, name){
-        const payment = mailer.purchase(email, name)
+    purchase(email, res){
+        const payment = mailer.purchase(email, res)
+        return payment
+    },
+
+    refund(email, name){
+        const payment = mailer.refund(email, name)
         return payment
     }
 }

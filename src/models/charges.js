@@ -11,6 +11,9 @@ const ChargeSchema = new mongoose.Schema({
     chargeId:{
         type: String,
     },
+    amount:{
+        type: String
+    },
     card:{
         type: String
     }

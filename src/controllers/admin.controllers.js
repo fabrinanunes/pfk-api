@@ -1,6 +1,7 @@
 const Solicitation = require('../models/solicitations');
 
 const { admin } = require('../core/services/users');
+const errorHandler = require('../core/erro-handler');
 
 module.exports = {
     async singUp(req, res){
@@ -8,7 +9,6 @@ module.exports = {
             const register = await admin.signUp(req.body)
             res.json(register)
         }catch(error){
-            console.log
             return res.status(400).send({ error: 'Registration failed'})
         }
     },
@@ -16,6 +16,7 @@ module.exports = {
     async signIn(req,res){
         try {
             const login = await admin.signIn(req.body);
+            console.log(login)
             res.json(login); 
         } catch (error) {
             return res.status(400).send({ error: "Login error" })
