@@ -23,4 +23,4 @@ jobs:
           command: bash pfk-api/test.sh
           username: root
           host: ${{ secrets.HOST_PRODUC }}
-          privateKey: ${{ secrets.SSHKEY_DEVELOP }}
+          privateKey: ${{ secrets.SSHKEY }}
