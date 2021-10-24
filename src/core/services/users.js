@@ -16,7 +16,7 @@ const admin = {
     async signUp(data){
         const { email } = data;
 
-        if(await Admin.findOne({ email })) return { error: 'User already exists' };
+        if(await Admin.findOne({ email })) throw { error: 'User already exists' };
 
         const user = await Admin.create(data);
         user.password = undefined;
@@ -28,10 +28,10 @@ const admin = {
         const { email, password } = data;
         const user = await Admin.findOne({ email }).select('+password');
  
-        if(!user) return { error: 'Email/Password incorrect'};
+        if(!user) throw { error: 'Email/Password incorrect'};
         
         if(!await bcrypt.compare(password, user.password))
-        return { error: 'Email/Password incorrect'};
+        throw { error: 'Email/Password incorrect'};
  
         user.password = undefined;
  
@@ -43,7 +43,7 @@ const client = {
     async signUp(data){
         const { email } = data;
 
-        if(await Client.findOne({ email })) return { error: 'User already exists' };
+        if(await Client.findOne({ email })) throw { error: 'User already exists' };
 
         const user = await Client.create(data);
         const profile = await Profile.create({ user: user._id, name: user.name, email: user.email})
@@ -56,10 +56,10 @@ const client = {
         const { email, password } = data;
         const user = await Client.findOne({ email }).select('+password');
  
-        if(!user) return { error: 'Email/Password incorrect'};
+        if(!user) throw { error: 'Email/Password incorrect'};
         
         if(!await bcrypt.compare(password, user.password))
-        return { error: 'Email/Password incorrect'};
+        throw { error: 'Email/Password incorrect'};
  
         user.password = undefined;
  

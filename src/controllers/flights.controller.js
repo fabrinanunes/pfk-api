@@ -5,13 +5,14 @@ module.exports = {
     //criar as mensagens????
     async create(req, res){
         try {
-            const numberFlight = req.body.flight;                            
+            const numberFlight = req.body.flight;     
+            if(await Flight.findOne({ numberFlight })) throw { error: 'This flight already exists' };                       
             const flightSchedule = await Flight.create(req.body)
             res.send({ flightSchedule })
         } catch (error) {
-            errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            await errorHandler(error)
+            res.status(400)
+            res.send({'Message': error.error})
         }
     },
 
@@ -20,9 +21,9 @@ module.exports = {
             const listReq = await Flight.find()
             res.send(listReq)
         } catch (error) {
-            errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            await errorHandler(error)
+            res.status(400)
+            res.send({'Message': error.error})
         }
     }
 }

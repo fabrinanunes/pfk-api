@@ -8,8 +8,7 @@ const FlightPurchase = require('../models/flights');
 
 const finances = require('../core/services/finances');
 const mailer = require('../core/services/mailer');
-const { postCode } = require('../core/services/correios');
-const { errorHandler } = require('../core/erro-handler');
+const errorHandler = require('../core/erro-handler');
 
 module.exports = {
     async balance(req, res){

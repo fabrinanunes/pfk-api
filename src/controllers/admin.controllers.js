@@ -9,22 +9,31 @@ module.exports = {
             const register = await admin.signUp(req.body)
             res.json(register)
         }catch(error){
-            return res.status(400).send({ error: 'Registration failed'})
+            await errorHandler(error)
+            res.status(400)
+            res.send({'Message': error.error})
         }
     },
 
     async signIn(req,res){
         try {
             const login = await admin.signIn(req.body);
-            console.log(login)
             res.json(login); 
         } catch (error) {
-            return res.status(400).send({ error: "Login error" })
+            await errorHandler(error)
+            res.status(400)
+            res.send({'Message': error.error})
         }
     },
 
     async solicitations(req, res){
-        const listReq = await Solicitation.find()
-        res.send(listReq)
+        try{
+            const listReq = await Solicitation.find()
+            res.send(listReq)
+        }catch(error){
+            await errorHandler(error)
+            res.status(400)
+            res.send({'Message': error.error})
+        }
     }
 }

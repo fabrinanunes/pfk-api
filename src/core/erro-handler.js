@@ -23,4 +23,4 @@ async function errorHandler(error){
   }
 }
 
-module.exports = { errorHandler }
+module.exports = errorHandler

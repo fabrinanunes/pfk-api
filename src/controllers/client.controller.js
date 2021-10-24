@@ -11,8 +11,9 @@ module.exports = {
             mailer.signUp(email, name)
             res.json(register)
         }catch(error){
-            console.log(error)
-            return res.status(400).send({ error: 'Registration failed'})
+            await errorHandler(error)
+            res.status(400)
+            res.send({'Message': error.error})
         }
     },
 
@@ -21,8 +22,9 @@ module.exports = {
             const login = await client.signIn(req.body);
             res.json(login); 
         } catch (error) {
-            console.log(error)
-            return res.status(400).send({ error: "Login error" })
+            await errorHandler(error)
+            res.status(400)
+            res.send({'Message': error.error})
         }
     }
 }
