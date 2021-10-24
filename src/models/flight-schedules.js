@@ -1,9 +1,10 @@
-const mongoose = require('../../config/database');
+const mongoose = require('../config/database');
 
 const FlightSchema = new mongoose.Schema({
     flight: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
     },
     departureAirport: {
         type: String,

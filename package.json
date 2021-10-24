@@ -2,7 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/server.js",
   "directories": {
     "lib": "lib"
   },
@@ -13,6 +13,9 @@
   "author": "Fabrina Nunes",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.7",
+    "@sentry/node": "^6.13.3",
+    "@sentry/tracing": "^6.13.3",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -23,7 +26,8 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "mongoose": "^6.0.10",
-    "nodemon": "^2.0.13",
-    "path": "^0.12.7"
+    "nodemon": "^2.0.14",
+    "path": "^0.12.7",
+    "soap": "^0.42.0"
   }
 }
