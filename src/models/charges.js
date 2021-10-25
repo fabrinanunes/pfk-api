@@ -6,10 +6,13 @@ const ChargeSchema = new mongoose.Schema({
         ref: 'Client',
     },
     paymentId: {
-        type: String,
+        type: String
     },
     chargeId:{
-        type: String,
+        type: String
+    },
+    flight:{
+        type: String
     },
     amount:{
         type: String

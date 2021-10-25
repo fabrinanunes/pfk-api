@@ -5,7 +5,7 @@ module.exports = {
     async getCEP(req, res){
         try {
             const cep = req.body
-            if (cep.lenght !== 8) throw {error: 'Digite um CEP válido'}
+            //if (cep.lenght !== 8) throw {error: 'Digite um CEP válido'}
             const getCEP = await CEP.getCEP(cep);
             res.json(getCEP);
         } catch (error) {

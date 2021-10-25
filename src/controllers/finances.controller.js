@@ -36,6 +36,7 @@ module.exports = {
                 { user: req.userId },
                 { flights: [...profile.flights, flight]}
             )
+            const purchase = await Charges.create({flight: flight})
 
             const cepData = req.body.billing.address.postCode;
             const charge = await finances.charge(req.body);
@@ -56,17 +57,6 @@ module.exports = {
         }catch(error){
             // const status = error.status ? error.status : 400
             // res.status(status).send(error)
-            errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
-        }
-    },
-
-    async list(){
-        try{
-            const list = await finances.list()
-            return list;
-        }catch(error){
             errorHandler(error)
             res.status(error.status)
             res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
@@ -97,7 +87,7 @@ module.exports = {
             const email = req.body.billing.email;
             const paymentMail = res.id
             mailer.purchase(email, paymentMail)
-            const paymentDb = await Charges.create(paymentData);
+            const paymentDb = await Charges.updateMany(paymentData);
             return res.json(payment);
         }catch(error){
             errorHandler(error)
