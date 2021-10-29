@@ -6,13 +6,12 @@ module.exports = {
     async create(req, res){
         try {
             const numberFlight = req.body.flight;     
-            if(await Flight.findOne({ numberFlight })) throw { error: 'This flight already exists' };                       
+           //if(await Flight.find({ numberFlight })) throw { error: 'This flight already exists' };                       
             const flightSchedule = await Flight.create(req.body)
             res.send({ flightSchedule })
         } catch (error) {
             await errorHandler(error)
-            res.status(400)
-            res.send({'Message': error.error})
+            res.status(400).send({'Message': error.error})
         }
     },
 
@@ -22,8 +21,7 @@ module.exports = {
             res.send(listReq)
         } catch (error) {
             await errorHandler(error)
-            res.status(400)
-            res.send({'Message': error.error})
+            res.status(400).send({'Message': error.error})
         }
     }
 }

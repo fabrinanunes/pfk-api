@@ -22,7 +22,7 @@ const welcomeEmail = (email, name) => {
         }
       }
     );
-}
+};
 
 const purchase = (email, res) => {    
     const message = {

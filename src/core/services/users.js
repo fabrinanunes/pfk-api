@@ -67,4 +67,4 @@ const client = {
     }
 }
 
-module.exports = { admin, client}
+module.exports = { admin, client }

@@ -16,36 +16,32 @@ module.exports = {
             const list = await finances.balance()
             res.json(list.balance)
         }catch(error){
-            // const status = error.status ? error.status : 400
-            // res.status(status).send(error)
-            // return
             await errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     },
 
     async charge(req, res, next){
         try {
+            const charge = await finances.charge(req.body);
             const flight = req.body.charge.description;
             const userId = req.userId
-            const flightSchema = await FlightPurchase.create({flight: flight, user: userId})
+            const chargeId = charge[0].id
 
-            const profile = await Profile.findOne({ user: req.userId})
-            const profileUpdate = await Profile.updateOne(
-                { user: req.userId },
-                { flights: [...profile.flights, flight]}
+            const flightSchema = await FlightPurchase.create({flight: flight, user: userId, chargeId: chargeId})
+
+            const profile = await Profile.findOne({user: req.userId})
+
+            const profileUpdate = await Profile.updateOne({user: req.userId, flights: [...profile.flights, flight]}
             )
-            const purchase = await Charges.create({flight: flight})
+            const purchase = await Charges.create({flight: flight, chargeId: chargeId})
 
             const cepData = req.body.billing.address.postCode;
-            const charge = await finances.charge(req.body);
-
+            
             res.json(charge)
         }catch(error){
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     },
 
@@ -55,11 +51,8 @@ module.exports = {
             const charge = await finances.status(id);
             return res.json(charge)
         }catch(error){
-            // const status = error.status ? error.status : 400
-            // res.status(status).send(error)
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     },
 
@@ -69,8 +62,7 @@ module.exports = {
             return res.json(list)
         } catch(error){
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     },
 
@@ -80,7 +72,6 @@ module.exports = {
             const paymentData = {
                 user: req.userId,
                 paymentId: payment.id,
-                chargeId: payment.chargeId,
                 card: req.body.creditCardDetails.creditCardId,
                 amount: payment.amount
             }
@@ -91,8 +82,7 @@ module.exports = {
             return res.json(payment);
         }catch(error){
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     },
 
@@ -104,35 +94,35 @@ module.exports = {
             res.json(refund)
         }catch(error){
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     },
 
     async tokenization(req, res){
         try{
             const saveCard = await finances.tokenization(req.body.creditCardHash);
-            const cardData = {
+            const payload = {
+                user: req.userId,
                 card: saveCard.creditCardId,
                 last4CardNumber: saveCard.last4CardNumber,
                 expirationMonth: saveCard.expirationMonth,
                 expirationYear: saveCard.expirationYear
             }
-            const card = await Cards.findOne({card: cardData.card})
+            const card = await Cards.findOne({card: payload.card})
             if(card == null){
-                await Cards.create(cardData)
+                await Cards.create(payload)
             }
             
             const profile = await Profile.findOne({ user: req.userId })
             const profileUpdate = await Profile.updateOne(
                 { user: req.userId},
-                { cards: [...profile.cards, cardData.card]}
-            )
+                { cards: [...profile.cards, payload.card]})
             res.json(saveCard)
         }catch(error){
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.json(error)
+            console.log(error)
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     },
 
@@ -143,8 +133,7 @@ module.exports = {
             res.send(show)
         }catch(err){
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error)
         }
     },
 
@@ -158,8 +147,7 @@ module.exports = {
             res.json(refundReq)
         } catch(error){
             errorHandler(error)
-            res.status(error.status)
-            res.send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
         }
     }
 }

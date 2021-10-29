@@ -8,6 +8,9 @@ const FlightSchema = new mongoose.Schema({
     flight: {
         type: String,
         required: true
+    },
+    chargeId:{
+        type: String
     }
 })
 
