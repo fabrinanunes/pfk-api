@@ -1,5 +1,5 @@
 const CEP = require('../core/services/correios')
-const { errorHandler } = require('../core/erro-handler')
+const errorHandler = require('../core/erro-handler')
 
 module.exports = {
     async postCode(req, res){
