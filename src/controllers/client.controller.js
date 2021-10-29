@@ -1,3 +1,6 @@
+const Cards = require('../models/cards');
+const Profile = require('../models/profile');
+const mongoose = require('mongoose');
 const { client } = require('../core/services/users');
 const mailer = require('../core/services/mailer');
 const errorHandler = require('../core/erro-handler');
@@ -25,6 +28,28 @@ module.exports = {
             await errorHandler(error)
             res.status(400)
             res.send({'Message': error.error})
+        }
+    },
+
+    async showCards(req, res){
+        try{
+            const userId = mongoose.Types.ObjectId(req.userId)
+            const show = await Cards.find({user: userId})
+            res.send(show)
+        }catch(err){
+            errorHandler(error)
+            res.status(400).send(error)
+        }
+    },
+
+    async profile(req, res){
+        try {
+            const userId = mongoose.Types.ObjectId(req.userId)
+            const profile = await Profile.find({user: userId})
+            res.send(profile)
+        } catch (error) {
+            errorHandler(error)
+            res.status(400).send(error)
         }
     }
 }

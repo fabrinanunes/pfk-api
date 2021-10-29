@@ -1,6 +1,3 @@
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED=0
-const moment = require('moment');
-
 const payment = require('../vendor/packJuno');
 
 module.exports={
