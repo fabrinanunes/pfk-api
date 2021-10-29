@@ -1,8 +1,8 @@
-const CEP = require("../vendor/correios");
+const postCode = require("../vendor/correios");
 
 module.exports = {
     async CEPService(cep){
-        const CEPService = await CEP.postCode(cep);
+        const CEPService = await postCode.postCode(cep);
         return CEPService;
     }
 };
