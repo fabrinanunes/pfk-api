@@ -13,7 +13,7 @@ const welcomeEmail = (email, name) => {
     
     sgMail.send(message).then(
       () => {
-        console.log("Email sent!", message); 
+        console.log("Email sent!"); 
       },
       error => { 
         console.error(error);
@@ -34,9 +34,10 @@ const purchase = (email, res) => {
               Here is some informations about your purchase:
               Purchase Number: ${res}`,
     }
+    
     sgMail.send(message).then(
       () => { 
-          console.log("Email sent!", message); 
+          console.log("Email sent!"); 
         },
       error => { 
           console.error(error);
@@ -57,7 +58,7 @@ const refund = (email) => {
   }
   sgMail.send(message).then(
     () => { 
-        console.log("Email sent!", message); 
+        console.log("Email sent!"); 
       },
     error => { 
         console.error(error);

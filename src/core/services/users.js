@@ -56,13 +56,10 @@ const client = {
         const { email, password } = data;
         const user = await Client.findOne({ email }).select('+password');
  
-        if(!user) throw { error: 'Email/Password incorrect'};
-        
-        if(!await bcrypt.compare(password, user.password))
-        throw { error: 'Email/Password incorrect'};
+        if(!user || !await bcrypt.compare(password, user.password)) throw { error: 'Email/Password incorrect'};
  
         user.password = undefined;
- 
+        
         return { user, token: generateToken({ id: user.id })};
     }
 }
