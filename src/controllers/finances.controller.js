@@ -5,6 +5,7 @@ const Charges = require('../models/charges');
 const Profile = require('../models/profile');
 const Cards = require('../models/cards');
 const FlightPurchase = require('../models/flights');
+const Client = require('../models/client');
 
 const finances = require('../core/services/finances');
 const mailer = require('../core/services/mailer');
@@ -34,9 +35,7 @@ module.exports = {
 
             const profileUpdate = await Profile.updateOne({user: req.userId, flights: [...profile.flights, flight]}
             )
-            const purchase = await Charges.create({flight: flight, chargeId: chargeId})
-
-            const cepData = req.body.billing.address.postCode;
+            const purchase = await Charges.create({flight: flight, chargeId: chargeId, user: userId})
             
             res.json(charge)
         }catch(error){
@@ -70,13 +69,12 @@ module.exports = {
         try{
             const payment = await finances.payment(req.body);
             const paymentData = {
-                user: req.userId,
                 paymentId: payment.id,
                 card: req.body.creditCardDetails.creditCardId,
                 amount: payment.amount
             }
             const email = req.body.billing.email;
-            const paymentMail = res.id
+            const paymentMail = payment.id
             mailer.purchase(email, paymentMail)
             const paymentDb = await Charges.updateMany(paymentData);
             return res.json(payment);
@@ -90,7 +88,9 @@ module.exports = {
         try{
             const id = req.params.id;
             const refund = await finances.refund(id, req.body.amount)
-            mailer.refund(req)
+            const user = await Solicitations.find({paymentId: req.params.id})
+            console.log(user[0].email)
+            mailer.refund(user[0].email, user[0].name)
             res.json(refund)
         }catch(error){
             errorHandler(error)
@@ -131,7 +131,7 @@ module.exports = {
             const userId = mongoose.Types.ObjectId(req.userId)
             const show = await Charges.find({user: userId})
             res.send(show)
-        }catch(err){
+        }catch(error){
             errorHandler(error)
             res.status(error)
         }
@@ -139,15 +139,19 @@ module.exports = {
 
     async refundReq(req, res){
         try{
+            const user = await Client.findById({_id: req.userId})
             const payload = {
                 ...req.body,
-                user: req.userId
+                user: req.userId,
+                name: user.name,
+                email: user.email
             }
             const refundReq = await Solicitations.create(payload)
             res.json(refundReq)
         } catch(error){
             errorHandler(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            console.log('erro', error)
+            res.status(error)
         }
     }
 }

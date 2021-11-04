@@ -1,5 +1,7 @@
 const Cards = require('../models/cards');
 const Profile = require('../models/profile');
+const Client = require('../models/client');
+const Delete = require('../models/delete-request');
 const mongoose = require('mongoose');
 const { client } = require('../core/services/users');
 const mailer = require('../core/services/mailer');
@@ -48,6 +50,26 @@ module.exports = {
             const profile = await Profile.find({user: userId})
             res.send(profile)
         } catch (error) {
+            errorHandler(error)
+            res.status(400).send(error)
+        }
+    },
+
+    async delete(req, res){
+        try{
+            const user = await Client.findById({_id: req.userId})
+            const profile = await Profile.find({user: req.userId})
+            const email = profile[0].email
+            if(await Delete.findOne({ email })) throw { error: 'You already requested to delete your account'}
+            const deleted = {
+                user: user._id,
+                profile: profile[0]._id,
+                name: profile[0].name,
+                email: profile[0].email
+            }
+            const deleteAccount = await Delete.create(deleted)
+            res.json(deleteAccount)
+        }catch(error){
             errorHandler(error)
             res.status(400).send(error)
         }

@@ -1,17 +1,13 @@
 const mongoose = require('../config/database');
 
-const ReqSchema = new mongoose.Schema({
+const DeleteSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Client'
     },
-    paymentId: {
-        type: String,
-        required: true
-    },
-    amount: {
-        type: String,
-        required: true
+    profile: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Profile'
     },
     name:{
         type: String,
@@ -23,6 +19,6 @@ const ReqSchema = new mongoose.Schema({
     }
 })
 
-const Solicitations = mongoose.model('Solicitation', ReqSchema)
+const Delete = mongoose.model('Delete Account', DeleteSchema)
 
-module.exports = Solicitations
+module.exports = Delete
