@@ -1,7 +1,7 @@
-name: Develop
+name: Main
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -24,4 +24,3 @@ jobs:
           username: root
           host: ${{ secrets.HOST_DEVELOP }}
           privateKey: ${{ secrets.SSHKEY }}
-
