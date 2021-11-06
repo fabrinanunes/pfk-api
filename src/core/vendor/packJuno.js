@@ -67,15 +67,10 @@ const paymentPack = {
     tokenization: async(obj) => { //tokeniza o cartão de crédito
         try{
             const instance = await paymentPack.init();
-            const res = await instance.post('/credit-cards/tokenization', obj, {
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            });
+            const res = await instance.post('/credit-cards/tokenization', obj);
             return res.data;
-            
         }catch(err){
-            throw err.response.data;
+            throw err.response;
         }
     },
 
