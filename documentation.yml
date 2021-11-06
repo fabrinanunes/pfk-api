@@ -1,0 +1,1243 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: PFK Airlines
+  description: 'Programa de Formação Kapivara'
+  
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    #url: https://virtserver.swaggerhub.com/fabrinanunes/PFK/1.0.0
+    url: http://159.89.228.175
+    
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /admin/register:
+    post:
+      tags: 
+        - Login & Register
+      description: Register to Administration Dashboard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+          
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: 
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      _id:
+                        type: string
+                      createdAt:
+                        type: string
+                  token:
+                    type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  
+  /admin/login:
+    post:
+      tags: 
+        - Login & Register
+      description: Login to Administration Dashboard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                  
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: 
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      createdAt:
+                        type: string
+                      __v:
+                        type: number
+                  token:
+                    type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+ 
+  /register:
+    post:
+      tags: 
+        - Login & Register
+      description: Register to Customer Dashboard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+          
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: 
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      _id:
+                        type: string
+                      createdAt:
+                        type: string
+                  token:
+                    type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  
+  /login:
+    post:
+      tags: 
+        - Login & Register
+      description: Login to Customer Dashboard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                  
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: 
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      createdAt:
+                        type: string
+                      __v:
+                        type: number
+                  token:
+                    type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /profile:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Profile
+      description: Customer Profile
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  user:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  cards:
+                    type: array
+                    items: 
+                      type: string
+                  flights:
+                    type: array
+                    items: 
+                      type: string
+                  __v:
+                    type: number
+        "400": 
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  error: 
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  
+  /my-cards:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Profile
+      description: List saved cards
+      
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    user:
+                      type: string
+                    card:
+                      type: string
+                    last4CardNumber:
+                      type: string
+                    expirationMonth:
+                      type: string
+                    expirationYear:
+                      type: string
+                    __v:
+                      type: number
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  
+  /postcode:
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Zip Code
+      description: Post Code Automation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cep:
+                  type: string
+      
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bairro:
+                    type: string
+                  cep:
+                    type: string
+                  cidade:
+                    type: string
+                  complemento2:
+                    type: string
+                  end:
+                    type: string
+                  uf:
+                    type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  
+  /payments/credit-cards/tokenization:
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      description: Card Tokenization	
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                creditCardHash:
+                  type: string
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  creditCardId:
+                    type: string
+                  last4CardNumber:
+                    type: string
+                  expirationMonth:
+                    type: string
+                  expirationYear:
+                    type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Status:
+                    type: number
+                    example: 400
+                  error:
+                    type: string
+                  message:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string            
+  
+  /flights:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Flights
+      description: List Flights
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    flight:
+                      type: string
+                    departureAirport:
+                      type: string
+                    arrivalAirport:
+                      type: string
+                    depatureDate:
+                      type: string
+                    depatureTime:
+                      type: string
+                    arrivalDate:
+                      type: string
+                    arrivalTime:
+                      type: string
+                    amount:
+                      type: string
+                    __v:
+                      type: number
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Flights
+      description: Add New Flight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - flight
+                - departureAirport
+                - arrivalAirport
+                - depatureDate
+                - depatureTime
+                - arrivalDate
+                - arrivalTime
+                - amount
+              properties:
+                flight:
+                  type: string
+                departureAirport:
+                  type: string
+                arrivalAirport:
+                  type: string
+                depatureDate:
+                  type: string
+                depatureTime:
+                  type: string
+                arrivalDate:
+                  type: string
+                arrivalTime:
+                  type: string
+                amount:
+                  type: string
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  flight:
+                    type: string
+                  departureAirport:
+                    type: string
+                  arrivalAirport:
+                    type: string
+                  depatureDate:
+                    type: string
+                  depatureTime:
+                    type: string
+                  arrivalDate:
+                    type: string
+                  arrivalTime:
+                    type: string
+                  amount:
+                    type: string
+                  _id:
+                    type: string
+                  __v:
+                    type: number
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string        
+  
+  /balance:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      description: Balance
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: number
+                example: 4586.10
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string   
+  
+  /payments/refund:
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Solicitations
+      description: Refund Request	
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - payment ID
+                - amount
+              properties:
+                paymentId:
+                  type: string
+                amount:
+                  type: string
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: 
+                    type: string
+                  paymentId:
+                    type: string
+                  amount:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  _id:
+                    type: string
+                  __v:
+                    type: number
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string            
+
+  /admin/solicitation:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Admin
+      description: Check Customer's Solicitations
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    user:
+                      type: string
+                    paymentId:
+                      type: string
+                    amount:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    __v:
+                      type: number
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string            
+  
+  /profile/payments:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Profile
+      description: List Customer's Purchase	
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  user:
+                    type: string
+                  chargeId:
+                    type: string
+                  flight:
+                    type: string
+                  v:
+                    type: number
+                  amount:
+                    type: string
+                  card:
+                    type: string
+                  paymentId:
+                    type: string
+  
+  /payment:
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      description: Add New Payment	
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - chargeId
+                - email
+                - street
+                - number
+                - city
+                - state
+                - postCode
+                - creditCardId
+              properties:
+                chargeId:
+                  type: string
+                billing:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    address:
+                      type: object
+                      properties:
+                        street:
+                          type: string
+                        number:
+                          type: string
+                        city:
+                          type: string
+                        state:
+                          type: string
+                        postCode:
+                          type: string
+                delayed: 
+                  type: boolean
+                creditCardDetails:
+                  type: object
+                  properties:
+                    creditCardId:
+                      type: string
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  chargeId:
+                    type: string
+                  date:
+                    type: string
+                  releaseDate:
+                    type: string
+                  amount:
+                    type: number
+                  fee:
+                    type: number
+                  type: 
+                    type: string
+                  status:
+                    type: string
+                  failReason:
+                    type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string 
+  
+  /admin/payment/refund/{id}:
+    post:
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The payment ID to refund
+        schema: 
+          type: string
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      description: Refund a Payment	
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - amount
+              properties:
+                amount:
+                  type: number
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactionId:
+                    type: string
+                  installments:
+                    type: number
+                    example: 1
+                  payments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        chargeId:
+                          type: string
+                        date:
+                          type: string
+                        releaseDate:
+                          type: string
+                        amount:
+                          type: number
+                        fee:
+                          type: number
+                        type: 
+                          type: string
+                        status:
+                          type: string
+                        failReason:
+                          type: string
+                  refunds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        chargeId:
+                          type: string
+                        releaseDate:
+                          type: string
+                        paybackDate:
+                          type: string
+                        amount:
+                          type: number
+                        fee:
+                          type: number
+                        status:
+                          type: string
+                        transactionId:
+                          type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  
+  /charges:
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      description: Create New Charge	
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - description
+                - amount
+                - paymentTypes
+                - paymentAdvance
+                - name
+                - document
+                - email
+                - street
+                - number
+                - city
+                - state
+                - postCode
+              properties:
+                charge:
+                  type: object
+                  properties:
+                    description: 
+                      type: string
+                    amount:
+                       type: number
+                    paymentTypes:
+                      type: array
+                      items:
+                        type: string
+                    paymentAdvance:
+                      type: boolean
+                billing:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    document:
+                      type: string
+                    email:
+                      type: string
+                    address:
+                      type: object
+                      properties:
+                        street:
+                          type: string
+                        number:
+                          type: string
+                        city:
+                          type: string
+                        state:
+                          type: string
+                        postCode:
+                          type: string
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  code:
+                    type: number
+                  reference:
+                    type: string
+                  dueDate:
+                    type: string
+                  checkoutUrl:
+                    type: string
+                  amount:
+                    type: number
+                  status:
+                    type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Status:
+                    type: number
+                  Error:
+                    type: string
+                  Message:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string 
+  
+  /admin/charges:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      description: List Charges
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    code:
+                      type: number
+                    references:
+                      type: string
+                    dueDate:
+                      type: string
+                    checkoutUrl:
+                      type: string
+                    amount:
+                      type: number
+                    status:
+                      type: string
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Status:
+                    type: number
+                  Error:
+                    type: string
+                  Message:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string             
+                    
+  /charges/{id}:
+    get:
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The charge ID to check
+        schema: 
+          type: string
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      description: Check Charge Status
+      
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  code:
+                    type: number
+                  reference:
+                    type: string
+                  dueDate:
+                    type: string
+                  checkoutUrl:
+                    type: string
+                  amount:
+                    type: number
+                  status:
+                    type: string
+                  payments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        chargeId:
+                          type: string
+                        date:
+                          type: string
+                        releaseDate:
+                          type: string
+                        amount:
+                          type: number
+                        fee:
+                          type: number
+                        type: 
+                          type: string
+                        status:
+                          type: string
+                        failReason:
+                          type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Status:
+                    type: number
+                  Error:
+                    type: string
+                  Message:
+                    type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string 

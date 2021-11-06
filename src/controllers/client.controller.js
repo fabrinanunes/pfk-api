@@ -18,7 +18,7 @@ module.exports = {
         }catch(error){
             await errorHandler(error)
             res.status(400)
-            res.send({'Message': error.error})
+            res.send({'error': error.error})
         }
     },
 

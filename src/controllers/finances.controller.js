@@ -37,7 +37,7 @@ module.exports = {
             )
             const purchase = await Charges.create({flight: flight, chargeId: chargeId, user: userId})
             
-            res.json(charge)
+            res.json(charge[0])
         }catch(error){
             errorHandler(error)
             res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
@@ -94,7 +94,7 @@ module.exports = {
             res.json(refund)
         }catch(error){
             errorHandler(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send({'Status': error.status, 'Error': error.error, 'Message': error.details[0].message})
         }
     },
 
@@ -120,9 +120,7 @@ module.exports = {
             res.json(saveCard)
         }catch(error){
             errorHandler(error)
-            res.json(error)
-            console.log(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.data.status).send({'Status': error.data.status, 'Error': error.data.error, 'Message': error.data.details[0].message})
         }
     },
 
@@ -130,7 +128,7 @@ module.exports = {
         try{
             const userId = mongoose.Types.ObjectId(req.userId)
             const show = await Charges.find({user: userId})
-            res.send(show)
+            res.send(show[0])
         }catch(error){
             errorHandler(error)
             res.status(error)
