@@ -70,6 +70,15 @@ paths:
                 type: object
                 properties:
                   error:
+                    type: string                   
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
                     type: string
   
   /admin/login:
@@ -124,7 +133,16 @@ paths:
                 properties:
                   error:
                     type: string
- 
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /register:
     post:
       tags: 
@@ -171,6 +189,15 @@ paths:
                     type: string
         "400":
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
           content:
             application/json:
               schema:
@@ -231,6 +258,15 @@ paths:
                 properties:
                   error:
                     type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
 
   /profile:
     get:
@@ -284,7 +320,16 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /my-cards:
     get:
       security:
@@ -335,7 +380,16 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /postcode:
     post:
       security:
@@ -391,7 +445,16 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /payments/credit-cards/tokenization:
     post:
       security:
@@ -448,6 +511,24 @@ paths:
                 properties:
                   error:
                     type: string            
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   
   /flights:
     get:
@@ -505,7 +586,16 @@ paths:
                 properties:
                   error:
                     type: string
-                    
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
     post:
       security:
         - bearerAuth: []
@@ -625,8 +715,26 @@ paths:
                 type: object
                 properties:
                   error:
-                    type: string   
-  
+                    type: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /payments/refund:
     post:
       security:
@@ -689,6 +797,24 @@ paths:
                 properties:
                   error:
                     type: string            
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
 
   /admin/solicitation:
     get:
@@ -740,7 +866,16 @@ paths:
                 properties:
                   error:
                     type: string            
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /profile/payments:
     get:
       security:
@@ -773,7 +908,25 @@ paths:
                     type: string
                   paymentId:
                     type: string
-  
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /payment:
     post:
       security:
@@ -869,7 +1022,25 @@ paths:
                 properties:
                   error:
                     type: string 
-  
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /admin/payment/refund/{id}:
     post:
       parameters:
@@ -971,7 +1142,25 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+ 
   /charges:
     post:
       security:
@@ -1087,7 +1276,25 @@ paths:
                 properties:
                   error:
                     type: string 
-  
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /admin/charges:
     get:
       security:
@@ -1150,6 +1357,24 @@ paths:
                 properties:
                   error:
                     type: string             
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
                     
   /charges/{id}:
     get:
@@ -1240,4 +1465,22 @@ paths:
                 type: object
                 properties:
                   error:
-                    type: string 
+                    type: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
