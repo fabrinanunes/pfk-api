@@ -710,7 +710,7 @@ paths:
         - Finances
       summary: Gets Balance
       description: Balance
-      operationId: getFlights
+      operationId: getBalance
       
       responses:
         "200":
