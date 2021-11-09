@@ -17,8 +17,7 @@ module.exports = {
             res.json(register)
         }catch(error){
             await errorHandler(error)
-            res.status(400)
-            res.send({'error': error.error})
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     },
 
@@ -28,8 +27,7 @@ module.exports = {
             res.json(login); 
         } catch (error) {
             await errorHandler(error)
-            res.status(400)
-            res.send({'Message': error.error})
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     },
 
@@ -40,7 +38,7 @@ module.exports = {
             res.send(show)
         }catch(err){
             errorHandler(error)
-            res.status(400).send(error)
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     },
 
@@ -51,7 +49,7 @@ module.exports = {
             res.send(profile)
         } catch (error) {
             errorHandler(error)
-            res.status(400).send(error)
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     },
 
@@ -71,7 +69,7 @@ module.exports = {
             res.json(deleteAccount)
         }catch(error){
             errorHandler(error)
-            res.status(400).send(error)
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     }
 }
