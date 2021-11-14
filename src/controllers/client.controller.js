@@ -1,8 +1,9 @@
+const mongoose = require('mongoose');
 const Cards = require('../models/cards');
 const Profile = require('../models/profile');
 const Client = require('../models/client');
 const Delete = require('../models/delete-request');
-const mongoose = require('mongoose');
+const Charges = require('../models/charges')
 const { client } = require('../core/services/users');
 const mailer = require('../core/services/mailer');
 const errorHandler = require('../core/erro-handler');
@@ -36,7 +37,7 @@ module.exports = {
             const userId = mongoose.Types.ObjectId(req.userId)
             const show = await Cards.find({user: userId})
             res.send(show)
-        }catch(err){
+        }catch(error){
             errorHandler(error)
             res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
@@ -44,9 +45,9 @@ module.exports = {
 
     async profile(req, res){
         try {
-            const userId = mongoose.Types.ObjectId(req.userId)
-            const profile = await Profile.find({user: userId})
-            res.send(profile)
+            const id = req.params.id
+            const profile = await client.profile(id)
+            return res.json(profile)
         } catch (error) {
             errorHandler(error)
             res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
@@ -68,6 +69,17 @@ module.exports = {
             const deleteAccount = await Delete.create(deleted)
             res.json(deleteAccount)
         }catch(error){
+            errorHandler(error)
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
+        }
+    },
+
+    async showPurchase(req, res){
+        try{
+            const userId = mongoose.Types.ObjectId(req.userId)
+            const show = await Charges.find({user: userId})
+            res.send(show)
+        }catch(err){
             errorHandler(error)
             res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }

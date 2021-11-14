@@ -120,6 +120,7 @@ const paymentPack = {
         try{
             const instance = await paymentPack.init();
             const res = await instance.post('payments', obj);
+ 
             return res.data.payments[0];
         }catch(err){
             throw err.response.data

@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
+const mongoose = require('mongoose');
 const Admin = require('../../models/admin');
 const Client = require('../../models/client');
 const Profile = require('../../models/profile');
@@ -61,6 +62,13 @@ const client = {
         user.password = undefined;
         
         return { user, token: generateToken({ id: user.id })};
+    },
+
+    async profile(id){
+        const userId = id;
+        const user = mongoose.Types.ObjectId(userId)
+        const profile = await Profile.findOne({user: user})
+        return profile
     }
 }
 
