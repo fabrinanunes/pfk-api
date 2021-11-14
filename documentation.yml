@@ -22,7 +22,9 @@ paths:
     post:
       tags: 
         - Login & Register
+      summary: Register a new Admin Client
       description: Register to Administration Dashboard
+      operationId: postNewAdmin
       requestBody:
         required: true
         content:
@@ -64,6 +66,15 @@ paths:
                     type: string
         "400":
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string                   
+        "500":
+          description: Internal Server Error
           content:
             application/json:
               schema:
@@ -76,7 +87,9 @@ paths:
     post:
       tags: 
         - Login & Register
+      summary: Admin Client Login
       description: Login to Administration Dashboard
+      operationId: adminLogin
       requestBody:
         required: true
         content:
@@ -124,12 +137,23 @@ paths:
                 properties:
                   error:
                     type: string
- 
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /register:
     post:
       tags: 
         - Login & Register
+      summary: Register a new Customer Client
       description: Register to Customer Dashboard
+      operationId: postNewCustomer
       requestBody:
         required: true
         content:
@@ -178,12 +202,23 @@ paths:
                 properties:
                   error:
                     type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   
   /login:
     post:
       tags: 
         - Login & Register
+      summary: Customer Client Login
       description: Login to Customer Dashboard
+      operationId: customerLogin
       requestBody:
         required: true
         content:
@@ -224,6 +259,15 @@ paths:
                     type: string
         "400":
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
           content:
             application/json:
               schema:
@@ -238,8 +282,10 @@ paths:
         - bearerAuth: []
       tags: 
         - Profile
+      summary: Gets Customer Profile
       description: Customer Profile
-      
+      operationId: getProfile
+
       responses:
         "200":
           description: OK
@@ -284,14 +330,25 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /my-cards:
     get:
       security:
         - bearerAuth: []
       tags:
         - Profile
+      summary: Gets Customer's cards
       description: List saved cards
+      operationId: getCustomerCards
       
       responses:
         "200":
@@ -335,14 +392,25 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /postcode:
     post:
       security:
         - bearerAuth: []
       tags: 
         - Zip Code
+      summary: Post Zip Code
       description: Post Code Automation
+      operationId: postZipCode
       requestBody:
         required: true
         content:
@@ -391,14 +459,25 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /payments/credit-cards/tokenization:
     post:
       security:
         - bearerAuth: []
       tags: 
         - Finances
-      description: Card Tokenization	
+      summary: Credit Card Tokenization
+      description: Card Tokenization
+      operationId: tokenization	
       requestBody:
         required: true
         content:
@@ -448,6 +527,24 @@ paths:
                 properties:
                   error:
                     type: string            
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   
   /flights:
     get:
@@ -455,7 +552,9 @@ paths:
         - bearerAuth: []
       tags: 
         - Flights
+      summary: Gets Flights
       description: List Flights
+      operationId: getFlights
       
       responses:
         "200":
@@ -505,13 +604,24 @@ paths:
                 properties:
                   error:
                     type: string
-                    
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
     post:
       security:
         - bearerAuth: []
       tags: 
         - Flights
+      summary: Post New Flight
       description: Add New Flight
+      operationId: postNewFlight
       requestBody:
         required: true
         content:
@@ -598,7 +708,9 @@ paths:
         - bearerAuth: []
       tags: 
         - Finances
+      summary: Gets Balance
       description: Balance
+      operationId: getBalance
       
       responses:
         "200":
@@ -625,15 +737,35 @@ paths:
                 type: object
                 properties:
                   error:
-                    type: string   
-  
+                    type: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /payments/refund:
     post:
       security:
         - bearerAuth: []
       tags: 
         - Solicitations
-      description: Refund Request	
+      summary: Refunds Customer's Payment
+      description: Refund Request
+      operationId: refundRequest
       requestBody:
         required: true
         content:
@@ -689,14 +821,34 @@ paths:
                 properties:
                   error:
                     type: string            
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
 
   /admin/solicitation:
     get:
       security:
         - bearerAuth: []
+      summary: Get Customer's Solicitations
       tags: 
         - Admin
       description: Check Customer's Solicitations
+      operationId: getSolicitations
       
       responses:
         "200":
@@ -740,15 +892,26 @@ paths:
                 properties:
                   error:
                     type: string            
-  
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /profile/payments:
     get:
       security:
         - bearerAuth: []
       tags: 
         - Profile
+      summary: Gets Customer's Purchase
       description: List Customer's Purchase	
-      
+      operationId: getPayments
+
       responses:
         "200":
           description: OK
@@ -773,14 +936,34 @@ paths:
                     type: string
                   paymentId:
                     type: string
-  
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /payment:
     post:
       security:
         - bearerAuth: []
       tags: 
         - Finances
-      description: Add New Payment	
+      summary: Post New Payment
+      description: Add New Payment
+      operationId: postPayment	
       requestBody:
         required: true
         content:
@@ -869,9 +1052,34 @@ paths:
                 properties:
                   error:
                     type: string 
-  
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /admin/payment/refund/{id}:
     post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      summary: Refund Payment
+      description: Refund a Payment	
+      operationId: refund
       parameters:
       - name: id
         in: path
@@ -879,11 +1087,6 @@ paths:
         description: The payment ID to refund
         schema: 
           type: string
-      security:
-        - bearerAuth: []
-      tags: 
-        - Finances
-      description: Refund a Payment	
       requestBody:
         required: true
         content:
@@ -971,14 +1174,34 @@ paths:
                 properties:
                   error:
                     type: string
-  
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+ 
   /charges:
     post:
       security:
         - bearerAuth: []
       tags: 
         - Finances
-      description: Create New Charge	
+      summary: Post New Charge
+      description: Create New Charge
+      operationId: postCharge	
       requestBody:
         required: true
         content:
@@ -1087,15 +1310,35 @@ paths:
                 properties:
                   error:
                     type: string 
-  
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /admin/charges:
     get:
       security:
         - bearerAuth: []
       tags: 
         - Finances
+      summary: Gets all Charges
       description: List Charges
-      
+      operationId: getCharges
+
       responses:
         "200":
           description: OK
@@ -1150,9 +1393,34 @@ paths:
                 properties:
                   error:
                     type: string             
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
                     
   /charges/{id}:
     get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Finances
+      summary: Gets a Charge by ID
+      description: Check Charge Status
+      operationId: getChargeById
       parameters:
       - name: id
         in: path
@@ -1160,11 +1428,6 @@ paths:
         description: The charge ID to check
         schema: 
           type: string
-      security:
-        - bearerAuth: []
-      tags: 
-        - Finances
-      description: Check Charge Status
       
       responses:
         "200":
@@ -1240,4 +1503,22 @@ paths:
                 type: object
                 properties:
                   error:
-                    type: string 
+                    type: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

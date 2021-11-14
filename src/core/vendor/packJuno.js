@@ -80,10 +80,9 @@ const paymentPack = {
             const instance = await paymentPack.init();
             const res = await instance.post('charges', obj);
             return res.data._embedded.charges;
-            }catch(err){
-                console.log(err.response.data)
-                throw err.response.data;
-            }
+        }catch(err){
+            throw err.response.data;
+        }
     },
     
     cancel: async(id, obj) => { //cancelar cobrança
@@ -121,6 +120,7 @@ const paymentPack = {
         try{
             const instance = await paymentPack.init();
             const res = await instance.post('payments', obj);
+ 
             return res.data.payments[0];
         }catch(err){
             throw err.response.data

@@ -10,7 +10,7 @@ module.exports = {
             res.json(CEPController);
         } catch (error) {
             await errorHandler(error)
-            res.status(400).send({'error': error.error})
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     }
 }
