@@ -8,7 +8,7 @@ servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     #url: https://virtserver.swaggerhub.com/fabrinanunes/PFK/1.0.0
-    url: http://159.89.228.175
+    url: http://159.89.228.175:3001
     
 components:
   securitySchemes:
