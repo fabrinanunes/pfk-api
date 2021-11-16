@@ -1,10 +1,8 @@
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED
 const mongoose = require('mongoose');
 const Solicitations = require('../models/solicitations');
 const Charges = require('../models/charges');
 const Profile = require('../models/profile');
 const Cards = require('../models/cards');
-const FlightPurchase = require('../models/flights');
 const Client = require('../models/client');
 
 const finances = require('../core/services/finances');
@@ -22,25 +20,24 @@ module.exports = {
         }
     },
 
-    async charge(req, res, next){
+    async charge(req, res){
         try {
             const charge = await finances.charge(req.body);
+            const userId = req.userId;
             const flight = req.body.charge.description;
-            const userId = req.userId
-            const chargeId = charge[0].id
-
-            const flightSchema = await FlightPurchase.create({flight: flight, user: userId, chargeId: chargeId})
-
-            const profile = await Profile.findOne({user: req.userId})
-
-            const profileUpdate = await Profile.updateOne({user: req.userId, flights: [...profile.flights, flight]}
-            )
-            const purchase = await Charges.create({flight: flight, chargeId: chargeId, user: userId})
+            const chargeId = charge[0].id;
             
-            res.json(charge)
+            const purchase = await Charges.create({flight: flight, chargeId: chargeId, user: userId});
+            const user = await Client.findById(userId);
+            const profile = await Profile.findOne({ user: userId });
+            const addFlight = await Profile.updateOne(
+                {user: req.userId}, 
+                {flights: [...profile.flights, chargeId]})
+
+            res.json(charge[0])
         }catch(error){
             errorHandler(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send({'Status': error.status, 'Error': error.error, 'Message': error.details[0].message})
         }
     },
 
@@ -51,17 +48,18 @@ module.exports = {
             return res.json(charge)
         }catch(error){
             errorHandler(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send({'Status': error.status, 'Error': error.error, 'Message': error.details[0].message})
         }
     },
 
     async list(req, res){
         try {
-            const list = await finances.list()
+            const page = req.query.page
+            const list = await finances.list(page)
             return res.json(list)
         } catch(error){
             errorHandler(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
+            res.status(error.status).send({'Status': error.status, 'Error': error.error, 'Message': error.details[0].message})
         }
     },
 
@@ -75,23 +73,11 @@ module.exports = {
             }
             const email = req.body.billing.email;
             const paymentMail = payment.id
-            mailer.purchase(email, paymentMail)
-            const paymentDb = await Charges.updateMany(paymentData);
+            mailer.purchase(email, paymentMail);
+            const charge= await Charges.findOne({ chargeId: req.body.chargeId })
+            const updateCharge = await Charges.updateOne(
+                {chargeId: charge.chargeId}, {paymentId: paymentData.paymentId, card: paymentData.card, amount: paymentData.amount})
             return res.json(payment);
-        }catch(error){
-            errorHandler(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
-        }
-    },
-
-    async refund(req, res){
-        try{
-            const id = req.params.id;
-            const refund = await finances.refund(id, req.body.amount)
-            const user = await Solicitations.find({paymentId: req.params.id})
-            console.log(user[0].email)
-            mailer.refund(user[0].email, user[0].name)
-            res.json(refund)
         }catch(error){
             errorHandler(error)
             res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
@@ -112,7 +98,11 @@ module.exports = {
             if(card == null){
                 await Cards.create(payload)
             }
-            
+            const charge = await Charges.findOne({ user: payload.user });
+            const addCard = await Charges.updateOne(
+                {user: req.userId}, 
+                {card: payload.card})
+
             const profile = await Profile.findOne({ user: req.userId })
             const profileUpdate = await Profile.updateOne(
                 { user: req.userId},
@@ -120,20 +110,7 @@ module.exports = {
             res.json(saveCard)
         }catch(error){
             errorHandler(error)
-            res.json(error)
-            console.log(error)
-            res.status(error.status).send([{'Status': error.status, 'Error': error.error, 'Message': error.details[0].message}])
-        }
-    },
-
-    async showPurchase(req, res){
-        try{
-            const userId = mongoose.Types.ObjectId(req.userId)
-            const show = await Charges.find({user: userId})
-            res.send(show)
-        }catch(error){
-            errorHandler(error)
-            res.status(error)
+            res.status(error.status).send({'Status': error.status, 'Error': error.error, 'Message': error.details[0].message})
         }
     },
 
@@ -146,12 +123,25 @@ module.exports = {
                 name: user.name,
                 email: user.email
             }
+            if(await Solicitations.findOne({ paymentId: req.body.paymentId })) throw { error: 'You already request a refund for this payment' };
             const refundReq = await Solicitations.create(payload)
             res.json(refundReq)
         } catch(error){
             errorHandler(error)
-            console.log('erro', error)
-            res.status(error)
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
+        }
+    },
+
+    async refund(req, res){
+        try{
+            const id = req.params.id;
+            const refund = await finances.refund(id, req.body.amount)
+            const user = await Solicitations.find({ paymentId: id })
+            mailer.refund(user[0].email, user[0].name)
+            res.json(refund)
+        }catch(error){
+            errorHandler(error)
+            res.status(error.status).send({'Status': error.status, 'Error': error.error, 'Message': error.details[0].message})
         }
     }
 }

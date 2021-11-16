@@ -10,8 +10,7 @@ module.exports = {
             res.json(register)
         }catch(error){
             await errorHandler(error)
-            res.status(400)
-            res.send({'Message': error.error})
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     },
 
@@ -21,8 +20,7 @@ module.exports = {
             res.json(login); 
         } catch (error) {
             await errorHandler(error)
-            res.status(400)
-            res.send({'Message': error.error})
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     },
 
@@ -32,8 +30,7 @@ module.exports = {
             res.send(listReq)
         }catch(error){
             await errorHandler(error)
-            res.status(400)
-            res.send({'Message': error.error})
+            res.status(400).send({'Status': 400, 'Error': 'Bad Request', 'Message': error.error})
         }
     }
 }

@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.4.7",
-    "@sentry/node": "^6.13.3",
+    "@sentry/node": "^6.14.3",
     "@sentry/tracing": "^6.13.3",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
@@ -28,7 +28,6 @@
     "nodemon": "^2.0.14",
     "path": "^0.12.7",
     "soap": "^0.42.0",
-    "xml-js": "^1.6.11",
     "xml-to-json-stream": "^1.1.0",
     "xml2js": "^0.4.23"
   }
