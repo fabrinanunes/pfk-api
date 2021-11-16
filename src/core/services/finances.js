@@ -16,8 +16,8 @@ module.exports={
         return check;
     },
 
-    async list(){
-        const list = await payment.chargeList()
+    async list(number){
+        const list = await payment.chargeList(number)
         return list;
     },
 
