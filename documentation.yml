@@ -276,7 +276,7 @@ paths:
                   error:
                     type: string
 
-  /profile:
+  /profile/{id}:
     get:
       security:
         - bearerAuth: []
@@ -285,6 +285,13 @@ paths:
       summary: Gets Customer Profile
       description: Customer Profile
       operationId: getProfile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The profile ID
+        schema: 
+          type: string
 
       responses:
         "200":
