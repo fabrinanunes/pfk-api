@@ -1,4 +1,3 @@
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED
 const axios = require('axios');
 require('dotenv').config();
 
@@ -13,8 +12,8 @@ const enviroments = {
 
 const paymentPack = {
 
-    initAuth: async() => { //executa a parte inicial (autorização)
-        const encoded = Buffer.from(`${enviroments.id}:${enviroments.secret}`).toString('base64'); //basic auth
+    initAuth: async() => {
+        const encoded = Buffer.from(`${enviroments.id}:${enviroments.secret}`).toString('base64');
         const instance = axios.create({
             baseURL: enviroments.baseURLAuth,
             headers: {
@@ -24,7 +23,7 @@ const paymentPack = {
         return instance;
     },
 
-    init: async() => { //recebe o bearer token e cria a instância principal (chama todas as demais requisições)
+    init: async() => {
         const token = await paymentPack.getToken()
         const instance = axios.create({
             baseURL: enviroments.baseURL,
@@ -39,12 +38,12 @@ const paymentPack = {
         return instance;
     }, 
 
-    getToken: async() => { //gera o bearer token
+    getToken: async() => {
         try{
         const instance = await paymentPack.initAuth();
 
-        let params = new URLSearchParams(); //form-urlencoded
-        params.append('grant_type','client_credentials'); //dados do post (append = add no final)
+        let params = new URLSearchParams();
+        params.append('grant_type','client_credentials');
         
         const res = await instance.post(enviroments.path, params);
 
@@ -54,7 +53,7 @@ const paymentPack = {
         }
     },
 
-    balance: async() => { //lista o saldo
+    balance: async() => {
         try{
             const instance = await paymentPack.init();
             const res = await instance.get('balance');
@@ -64,7 +63,7 @@ const paymentPack = {
         }
     },
 
-    tokenization: async(obj) => { //tokeniza o cartão de crédito
+    tokenization: async(obj) => {
         try{
             const instance = await paymentPack.init();
             const res = await instance.post('/credit-cards/tokenization', obj);
@@ -75,7 +74,7 @@ const paymentPack = {
     },
 
    //cobrança
-    charge: async(obj) => { //cria cobrança
+    charge: async(obj) => {
         try{
             const instance = await paymentPack.init();
             const res = await instance.post('charges', obj);
@@ -85,7 +84,7 @@ const paymentPack = {
         }
     },
     
-    cancel: async(id, obj) => { //cancelar cobrança
+    cancel: async(id, obj) => {
         try{
             const instance = await paymentPack.init();
             const res = await instance.put(`charges/${id}/cancelation`, obj)
@@ -95,7 +94,7 @@ const paymentPack = {
         }
     },
 
-    checkCharge: async(id, obj) => {//consulta cobrança
+    checkCharge: async(id, obj) => {
         try{
             const instance = await paymentPack.init();
             const res = await instance.get(`charges/${id}`, obj)
@@ -105,10 +104,10 @@ const paymentPack = {
         }
     },
 
-    chargeList: async() => { //lista as cobranças
+    chargeList: async(number) => {
         try{
             const intance = await paymentPack.init();
-            const res = await intance.get('charges');
+            const res = await intance.get(`charges?page=${number}`);
             return res.data._embedded.charges
         }catch(err){
             throw err.response.data;
@@ -116,7 +115,7 @@ const paymentPack = {
     },
 
     //pagamento
-    payment: async(obj) => { //criar pagamento
+    payment: async(obj) => {
         try{
             const instance = await paymentPack.init();
             const res = await instance.post('payments', obj);
@@ -137,7 +136,7 @@ const paymentPack = {
         }
     },
 
-    refund: async(id, amount = null) => { //reembolso
+    refund: async(id, amount = null) => {
         try{
             const obj = {
                 amount

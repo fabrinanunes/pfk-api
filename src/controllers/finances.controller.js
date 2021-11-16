@@ -1,4 +1,3 @@
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED
 const mongoose = require('mongoose');
 const Solicitations = require('../models/solicitations');
 const Charges = require('../models/charges');
@@ -25,14 +24,12 @@ module.exports = {
         try {
             const charge = await finances.charge(req.body);
             const userId = req.userId;
-            console.log('user id', userId)
             const flight = req.body.charge.description;
             const chargeId = charge[0].id;
+            
             const purchase = await Charges.create({flight: flight, chargeId: chargeId, user: userId});
             const user = await Client.findById(userId);
-            const profile = await Profile.findOne({ user: user._id });
-            console.log('user', user)
-            console.log('profile', profile)
+            const profile = await Profile.findOne({ user: userId });
             const addFlight = await Profile.updateOne(
                 {user: req.userId}, 
                 {flights: [...profile.flights, chargeId]})
@@ -57,7 +54,8 @@ module.exports = {
 
     async list(req, res){
         try {
-            const list = await finances.list()
+            const page = req.query.page
+            const list = await finances.list(page)
             return res.json(list)
         } catch(error){
             errorHandler(error)
@@ -75,8 +73,10 @@ module.exports = {
             }
             const email = req.body.billing.email;
             const paymentMail = payment.id
-            mailer.purchase(email, paymentMail)
-            const paymentDb = await Charges.updateMany(paymentData);
+            mailer.purchase(email, paymentMail);
+            const charge= await Charges.findOne({ chargeId: req.body.chargeId })
+            const updateCharge = await Charges.updateOne(
+                {chargeId: charge.chargeId}, {paymentId: paymentData.paymentId, card: paymentData.card, amount: paymentData.amount})
             return res.json(payment);
         }catch(error){
             errorHandler(error)
@@ -98,7 +98,11 @@ module.exports = {
             if(card == null){
                 await Cards.create(payload)
             }
-            
+            const charge = await Charges.findOne({ user: payload.user });
+            const addCard = await Charges.updateOne(
+                {user: req.userId}, 
+                {card: payload.card})
+
             const profile = await Profile.findOne({ user: req.userId })
             const profileUpdate = await Profile.updateOne(
                 { user: req.userId},

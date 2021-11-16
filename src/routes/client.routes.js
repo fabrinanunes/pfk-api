@@ -6,7 +6,7 @@ const ensureAuthenticated = require('../config/middlewares/ensure-authenticated'
 
 router.post('/register', controller.singUp);
 router.post('/login', controller.signIn);
-router.get('/profile/payments', ensureAuthenticated, controller.showPurchase); //can not get (api dev)
+router.get('/profile/payments', ensureAuthenticated, controller.showPurchase);
 router.get('/profile/:id', ensureAuthenticated, controller.profile);
 router.get('/my-cards', ensureAuthenticated, controller.showCards);
 router.post('/delete-account', ensureAuthenticated, controller.delete);
