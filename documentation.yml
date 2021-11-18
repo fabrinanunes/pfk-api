@@ -772,7 +772,7 @@ paths:
       security:
         - bearerAuth: []
       tags: 
-        - Solicitations
+        - Client Solicitations
       summary: Refunds Customer's Payment
       description: Refund Request
       operationId: refundRequest
