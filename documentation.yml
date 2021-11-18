@@ -2,13 +2,16 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: PFK Airlines
-  description: 'Programa de Formação Kapivara'
+  description: '<p><b>Overview</b></p>
+  <p>Holidays Airline API was create to be used at Holidays Platform. The API enables management of user accounts and flights, as well as the financial part.</p>
+  <p><b>Authentication</b></p>
+  <p>Most of endpoints require a access token that is provided at the register and login. Once the token is generated, it should be passed as part of the Authorization HTTP header`s endpoint. This token expires after 24 hours.'
   
 servers:
   # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
+  - description: Holidays Airline Playground
     #url: https://virtserver.swaggerhub.com/fabrinanunes/PFK/1.0.0
-    url: http://159.89.228.175:3001
+    url: http://159.89.228.175
     
 components:
   securitySchemes:
@@ -709,7 +712,7 @@ paths:
                   error:
                     type: string        
   
-  /balance:
+  /admin/balance:
     get:
       security:
         - bearerAuth: []
@@ -1007,8 +1010,8 @@ paths:
                           type: string
                         postCode:
                           type: string
-                delayed: 
-                  type: boolean
+                    delayed: 
+                      type: boolean
                 creditCardDetails:
                   type: object
                   properties:
@@ -1085,7 +1088,7 @@ paths:
       tags: 
         - Finances
       summary: Refund Payment
-      description: Refund a Payment	
+      description: Refund a Payment. This endpoint only works after request a payment refund. Try the endpoint <b>/payments/refund</b> first!
       operationId: refund
       parameters:
       - name: id
@@ -1345,6 +1348,12 @@ paths:
       summary: Gets all Charges
       description: List Charges
       operationId: getCharges
+      parameters:
+      - name: page
+        in: query
+        required: true
+        schema:
+          type: number
 
       responses:
         "200":
